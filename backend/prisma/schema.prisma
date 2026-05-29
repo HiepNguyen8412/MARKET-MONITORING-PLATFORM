@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            Int         @id @default(autoincrement())
+  email         String      @unique
+  password_hash String
+  role          String      @default("USER")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  watchlists    Watchlist[]
+  alertThresholds AlertThreshold[]
+  portfolio     Portfolio?
+}
+
+model Asset {
+  id              Int          @id @default(autoincrement())
+  symbol          String       @unique
+  name            String
+  currentPrice    Float
+  lastUpdated     DateTime     @default(now())
+  marketData      MarketData[]
+  watchlists      Watchlist[]
+  alertThresholds AlertThreshold[]
+  holdings        Holding[]
+  transactions    Transaction[]
+}
+
+model MarketData {
+  id        Int      @id @default(autoincrement())
+  assetId   Int
+  asset     Asset    @relation(fields: [assetId], references: [id])
+  price     Float
+  volume    Float
+  timestamp DateTime @default(now())
+}
+
+model Watchlist {
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
+  assetId Int
+  asset   Asset @relation(fields: [assetId], references: [id])
+
+  @@unique([userId, assetId])
+}
+
+model AlertThreshold {
+  id          Int     @id @default(autoincrement())
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id])
+  assetId     Int
+  asset       Asset   @relation(fields: [assetId], references: [id])
+  targetPrice Float
+  type        String  // "ABOVE" or "BELOW"
+  status      String  @default("ACTIVE") // "ACTIVE", "TRIGGERED"
+}
+
+model Portfolio {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Float    @default(100000.0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  holdings  Holding[]
+  transactions Transaction[]
+}
+
+model Holding {
+  id          Int       @id @default(autoincrement())
+  portfolioId Int
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+  assetId     Int
+  asset       Asset     @relation(fields: [assetId], references: [id])
+  amount      Float
+  avgPrice    Float
+
+  @@unique([portfolioId, assetId])
+}
+
+model Transaction {
+  id          Int       @id @default(autoincrement())
+  portfolioId Int
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+  assetId     Int
+  asset       Asset     @relation(fields: [assetId], references: [id])
+  type        String    // "BUY" or "SELL"
+  amount      Float
+  price       Float
+  timestamp   DateTime  @default(now())
+}
+
+model ScrapedMarketData {
+  id          Int      @id @default(autoincrement())
+  category    String
+  itemName    String   @unique
+  priceOrRate Float
+  lastUpdated DateTime @default(now())
+}

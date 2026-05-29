@@ -1,0 +1,9 @@
+{
+  "name": "faas-alerts",
+  "version": "1.0.0",
+  "description": "Serverless function for price alerts",
+  "main": "handler.js",
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.3"
+  }
+}

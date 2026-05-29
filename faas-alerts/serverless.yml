@@ -1,0 +1,18 @@
+service: market-monitor-alerts
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-1
+  environment:
+    SENDGRID_API_KEY: ${env:SENDGRID_API_KEY}
+    SENDER_EMAIL: ${env:SENDER_EMAIL}
+
+functions:
+  processAlert:
+    handler: handler.processAlert
+    events:
+      # This HTTP endpoint can be called by the backend when a price crosses a threshold
+      - httpApi:
+          path: /trigger-alert
+          method: post

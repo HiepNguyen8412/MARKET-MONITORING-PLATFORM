@@ -1,0 +1,18 @@
+[
+  {
+    "id": "admin-master-7777",
+    "email": "admin@flow.com",
+    "password": "admin123",
+    "role": "admin",
+    "createdAt": "2026-05-20T04:20:00.000Z",
+    "balance": 0
+  },
+  {
+    "id": "user-test-01",
+    "email": "hiep@flow.com",
+    "password": "123456",
+    "role": "user",
+    "balance": 500000,
+    "createdAt": "2026-05-20T04:20:00.000Z"
+  }
+]
