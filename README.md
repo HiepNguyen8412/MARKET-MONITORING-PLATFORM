@@ -1,41 +1,79 @@
-<<<<<<< HEAD
-# Market Monitoring System
+# Market Monitoring Platform
 
-A real-time market monitoring platform with live dashboards, price tracking, AI-based forecasting, watchlists, and alerts.
+This project is a market monitoring platform built to track and visualize asset price movements in real time. The system includes a live dashboard, forecasting features, watchlists, and notification support for market changes.
 
-## Tech Stack
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS, Recharts, Zustand, Socket.io
-- **Backend**: Node.js, Express, TypeScript, Prisma, PostgreSQL, Redis, Socket.io
-- **ML-Service**: Python 3.10, FastAPI, Pandas, Scikit-learn
+## Technologies Used
 
-## Setup and Running
+### Frontend
 
-1. Clone or generate the repository.
-2. Ensure Docker and Docker Compose are installed on your machine.
-3. Run the following command:
+* Next.js 14
+* TypeScript
+* Tailwind CSS
+* Recharts
+* Zustand
+* Socket.io Client
+
+### Backend
+
+* Node.js
+* Express.js
+* Prisma ORM
+* PostgreSQL
+* Redis
+* Socket.io
+
+### Machine Learning Service
+
+* Python 3.10
+* FastAPI
+* Pandas
+* Scikit-learn
+
+---
+
+## Project Features
+
+* Real-time market price updates
+* Interactive charts and dashboards
+* Asset watchlist management
+* Alert system for price changes
+* JWT-based authentication
+* Forecasting module using historical trend analysis
+
+---
+
+## Running the Project
+
+### Requirements
+
+* Docker
+* Docker Compose
+
+### Start the system
 
 ```bash
 docker-compose up --build
 ```
 
-4. The first time you run this, the backend Dockerfile will automatically push the Prisma schema and seed the database with demo assets and a test user.
+When the containers are started for the first time, the backend service automatically initializes the database and inserts sample data.
 
-## Services
-- **Frontend**: http://localhost:3000
-- **Backend**: http://localhost:4000
-- **ML-Service**: http://localhost:8000
-- **PostgreSQL**: port 5432
-- **Redis**: port 6379
+---
 
-## Features
-- Real-time simulated price updates via WebSocket.
-- AI Forecasting using simple linear regression based on recent price trends.
-- User authentication (JWT).
-- Watchlists and Price Alerts.
+## Service Ports
 
-## Default Accounts
-- **Email**: test@example.com
-- **Password**: password123
-=======
-# MARKET-MONITORING-PLATFORM
->>>>>>> 44e6bbb0bc8f9f13a0a0be6439a156c632b1b5b4
+| Service    | URL / Port            |
+| ---------- | --------------------- |
+| Frontend   | http://localhost:3000 |
+| Backend    | http://localhost:4000 |
+| ML Service | http://localhost:8000 |
+| PostgreSQL | 5432                  |
+| Redis      | 6379                  |
+
+---
+
+## Test Account
+
+```text
+Email: test@example.com
+Password: password123
+```
