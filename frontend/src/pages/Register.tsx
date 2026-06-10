@@ -13,7 +13,8 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/auth/register`, {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

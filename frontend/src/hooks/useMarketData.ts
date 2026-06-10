@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useMarketStore } from '../store/useMarketStore';
 
-const COINGECKO_BASE = 'https://api.coingecko.com/api/v3';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export const useMarketData = () => {
   const { setCoins, setGlobalData, setHistory, checkAlerts, setIsLoading, setError } = useMarketStore();
@@ -10,7 +10,7 @@ export const useMarketData = () => {
 
   const fetchCoinHistory = async (coinId: string) => {
     try {
-      const res = await axios.get(`${COINGECKO_BASE}/coins/${coinId}/market_chart`, {
+      const res = await axios.get(`${API_URL}/api/crypto/coins/${coinId}/market_chart`, {
         params: { vs_currency: 'usd', days: 1, interval: 'hourly' }
       });
       const formatted = (res.data?.prices || []).map(([ts, price]: [number, number]) => ({
@@ -28,7 +28,7 @@ export const useMarketData = () => {
     setIsLoading(true);
     try {
       // 1. Fetch Markets
-      const marketsRes = await axios.get(`${COINGECKO_BASE}/coins/markets`, {
+      const marketsRes = await axios.get(`${API_URL}/api/crypto/markets`, {
         params: {
           vs_currency: 'usd',
           order: 'market_cap_desc',
@@ -40,7 +40,7 @@ export const useMarketData = () => {
       setCoins(marketsRes.data);
 
       // 2. Fetch Global Data
-      const globalRes = await axios.get(`${COINGECKO_BASE}/global`);
+      const globalRes = await axios.get(`${API_URL}/api/crypto/global`);
       setGlobalData(globalRes.data.data);
 
       // 3. Fetch default history (Bitcoin)

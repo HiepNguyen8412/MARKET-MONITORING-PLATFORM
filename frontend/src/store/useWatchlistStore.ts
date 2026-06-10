@@ -27,7 +27,7 @@ interface WatchlistState {
   removeAsset: (id: number) => Promise<void>;
 }
 
-const API_URL = import.meta.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export const useWatchlistStore = create<WatchlistState>((set, get) => ({
   items: [],

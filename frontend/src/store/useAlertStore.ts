@@ -28,7 +28,7 @@ interface AlertState {
   disconnectSocket: () => void;
 }
 
-const API_URL = import.meta.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export const useAlertStore = create<AlertState>((set, get) => ({
   items: [],

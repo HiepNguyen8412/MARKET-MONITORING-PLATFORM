@@ -28,7 +28,7 @@ interface RegistryUser {
   createdAt: string;
 }
 
-const API_URL = import.meta.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 const Profile = () => {
   const { user, token, logout, updateBalance } = useAuthStore();

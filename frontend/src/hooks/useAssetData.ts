@@ -63,10 +63,11 @@ export const ALL_ASSETS = [...CRYPTO_ASSETS, ...TRADITIONAL_ASSETS];
 
 const dataCache = new Map<string, { data: AssetData; fetchedAt: number }>();
 const CACHE_TTL = 60000;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 async function fetchCryptoChart(coinId: string): Promise<ChartPoint[]> {
-  const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=1&interval=hourly`;
-  const res = await fetch(url);
+  const url = `${API_URL}/api/crypto/coins/${encodeURIComponent(coinId)}/market_chart`;
+  const res = await fetch(`${url}?vs_currency=usd&days=1&interval=hourly`);
   if (!res.ok) throw new Error(`CoinGecko ${res.status}`);
   const json = await res.json();
   return json.prices.map(([ts, price]: [number, number]) => ({
@@ -76,7 +77,7 @@ async function fetchCryptoChart(coinId: string): Promise<ChartPoint[]> {
 }
 
 async function fetchCryptoQuote(coinId: string) {
-  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}`;
+  const url = `${API_URL}/api/crypto/markets?vs_currency=usd&ids=${encodeURIComponent(coinId)}`;
   const res = await fetch(url);
   const [coin] = await res.json();
   return {
@@ -87,7 +88,7 @@ async function fetchCryptoQuote(coinId: string) {
 }
 
 async function fetchYahooChart(symbol: string): Promise<ChartPoint[]> {
-  const url = `http://localhost:3001/api/assets/proxy/yahoo/${encodeURIComponent(symbol)}?interval=1h&range=1d`;
+  const url = `${API_URL}/api/assets/proxy/yahoo/${encodeURIComponent(symbol)}?interval=1h&range=1d`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Backend Proxy Error ${res.status}`);
   const json = await res.json();
@@ -104,7 +105,7 @@ async function fetchYahooChart(symbol: string): Promise<ChartPoint[]> {
 }
 
 async function fetchYahooQuote(symbol: string) {
-  const url = `http://localhost:3001/api/assets/proxy/yahoo/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
+  const url = `${API_URL}/api/assets/proxy/yahoo/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Backend Proxy Error ${res.status}`);
   const json = await res.json();

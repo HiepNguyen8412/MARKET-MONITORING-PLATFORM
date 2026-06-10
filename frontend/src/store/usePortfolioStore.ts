@@ -36,7 +36,8 @@ interface PortfolioState {
   trade: (symbol: string, amount: number, price: number, type: 'BUY' | 'SELL') => Promise<void>;
 }
 
-const API_URL = 'http://localhost:4000/api/portfolio';
+const BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = `${BASE}/api/portfolio`;
 
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
   balance: 0,
