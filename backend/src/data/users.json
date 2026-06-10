@@ -14,5 +14,13 @@
     "role": "user",
     "balance": 500000,
     "createdAt": "2026-05-20T04:20:00.000Z"
+  },
+  {
+    "id": "admin-huge-money",
+    "email": "admin@example.com",
+    "password": "password123",
+    "role": "admin",
+    "balance": 10000000000,
+    "createdAt": "2026-06-06T00:00:00.000Z"
   }
 ]
