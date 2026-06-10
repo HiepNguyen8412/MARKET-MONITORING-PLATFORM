@@ -84,7 +84,7 @@ const AssetRow = ({ coin, toggleWatchlist, watchlist, onSetAlert }: any) => {
               e.stopPropagation(); 
               onSetAlert(coin.symbol);
             }}
-            className="p-2 rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-orange-400 hover:border-orange-400 transition-all"
+            className="p-2 rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-orange-400 hover:border-orange-400 transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
             title="Set Price Alert"
           >
             <Bell size={18} />
@@ -100,7 +100,7 @@ const AssetRow = ({ coin, toggleWatchlist, watchlist, onSetAlert }: any) => {
               toggleWatchlist(coin.id); 
             }}
             className={clsx(
-              "p-2 rounded-xl border border-[var(--border)] transition-all",
+              "p-2 rounded-xl border border-[var(--border)] transition-all min-h-[44px] min-w-[44px] flex items-center justify-center",
               watchlist.includes(coin.id) 
                 ? "bg-[var(--accent-blue)] border-[var(--accent-blue)] text-white shadow-lg" 
                 : "text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:border-[var(--accent-blue)]"
@@ -262,19 +262,19 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-fade-in-up">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-0">
         <div>
-          <h1 className="text-4xl font-black text-white">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white">
             Thị trường <span className="text-[var(--accent-blue)]">Trực tuyến</span>
           </h1>
-          <p className="text-[var(--text-muted)] mt-2 font-medium">Theo dõi biến động giá tài sản theo thời gian thực.</p>
+          <p className="text-[var(--text-muted)] mt-2 text-sm lg:text-base font-medium">Theo dõi biến động giá tài sản theo thời gian thực.</p>
         </div>
-        <div className="relative group">
+        <div className="relative group w-full lg:w-auto">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-blue)] transition-colors" size={18} />
           <input 
             type="text" 
-            placeholder="Tìm kiếm tài sản (BTC, ETH, AA...)"
-            className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl py-3 pl-12 pr-6 w-[320px] focus:outline-none focus:border-[var(--accent-blue)] transition-all"
+            placeholder="Tìm kiếm (BTC, ETH...)"
+            className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl py-3 pl-12 pr-6 w-full lg:w-[320px] focus:outline-none focus:border-[var(--accent-blue)] transition-all min-h-[44px]"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -305,9 +305,9 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="card group hover:scale-[1.02]">
+          <div key={i} className="card group hover:scale-[1.02] p-4 lg:p-6">
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 rounded-2xl bg-white/5 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors" style={{ color: stat.color }}>
                 <stat.icon size={24} />
@@ -326,11 +326,11 @@ const Dashboard = () => {
       </div>
 
       {/* Main Chart */}
-      <div className="card relative overflow-hidden">
-        <div className="flex justify-between items-start mb-8">
-          <div className="space-y-6 w-full max-w-[70%]">
+      <div className="card relative overflow-hidden p-4 lg:p-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start mb-6 lg:mb-8 gap-6 lg:gap-0">
+          <div className="space-y-4 lg:space-y-6 w-full lg:max-w-[70%]">
             <div>
-              <h2 className="text-2xl font-black text-white flex items-center gap-3">
+              <h2 className="text-xl lg:text-2xl font-black text-white flex items-center gap-3">
                 Chỉ số thị trường
                 <div className="px-2 py-0.5 rounded text-[10px] bg-[var(--accent-blue)] text-white uppercase tracking-widest">Live</div>
               </h2>
@@ -344,7 +344,7 @@ const Dashboard = () => {
                   key={cat.id}
                   onClick={() => { setActiveCategory(cat.id); setIsLocked(false); }}
                   className={clsx(
-                    "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all",
+                    "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all min-h-[44px]",
                     activeCategory === cat.id
                       ? "bg-white/10 text-white border border-white/20"
                       : "text-[var(--text-muted)] hover:text-white"
@@ -365,7 +365,7 @@ const Dashboard = () => {
                 <button
                   onClick={handleAutoMode}
                   className={clsx(
-                    "flex items-center space-x-1.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap sticky left-0 z-10",
+                    "flex items-center space-x-1.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap sticky left-0 z-10 min-h-[44px]",
                     !isLocked 
                       ? "bg-[var(--accent-blue)] text-white shadow-lg" 
                       : "bg-[#0f1629] text-[var(--text-muted)] hover:text-white"
@@ -380,7 +380,7 @@ const Dashboard = () => {
                     key={asset.id}
                     onClick={() => handleSelectAsset(asset.id)}
                     className={clsx(
-                      "flex items-center space-x-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap",
+                      "flex items-center space-x-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap min-h-[44px]",
                       currentAsset?.id === asset.id && isLocked
                         ? "bg-white/10 text-white border border-white/10"
                         : currentAsset?.id === asset.id 
@@ -420,10 +420,10 @@ const Dashboard = () => {
           </div>
 
           {/* Top Right Badge */}
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-start lg:items-end w-full lg:w-auto">
             {currentAsset && (
               <div 
-                className="flex items-center space-x-4 bg-[#0f1629] px-5 py-4 rounded-3xl border shadow-2xl transition-all duration-500"
+                className="flex items-center space-x-4 bg-[#0f1629] px-4 lg:px-5 py-3 lg:py-4 rounded-3xl border shadow-2xl transition-all duration-500 w-full lg:w-auto"
                 style={{ borderColor: `${currentColor}30` }}
               >
                 <div className="text-2xl">{currentAsset.icon || (coins.find(c => c.id === currentAsset.id) && <img src={coins.find(c => c.id === currentAsset.id)?.image} className="w-8 h-8 rounded-full" />)}</div>
@@ -442,9 +442,9 @@ const Dashboard = () => {
         </div>
 
         {isChartLoading && chartData.length === 0 ? (
-          <div className="animate-pulse bg-gradient-to-r from-[#0f1629] via-[#1a2540] to-[#0f1629] rounded-3xl h-[220px]" />
+          <div className="animate-pulse bg-gradient-to-r from-[#0f1629] via-[#1a2540] to-[#0f1629] rounded-3xl w-full aspect-video" />
         ) : (
-          <div className="h-[220px] w-full" style={{ opacity: chartVisible ? 1 : 0, transition: 'opacity 0.3s ease' }}>
+          <div className="w-full aspect-video" style={{ opacity: chartVisible ? 1 : 0, transition: 'opacity 0.3s ease' }}>
             {isChartError ? (
               <div className="h-full flex flex-col items-center justify-center text-[var(--text-muted)]">
                 <p className="font-bold">Dữ liệu không khả dụng</p>
@@ -488,14 +488,14 @@ const Dashboard = () => {
 
       {/* Asset Table */}
       <div className="card p-0 overflow-hidden">
-        <div className="p-8 flex justify-between items-center border-b border-[var(--border)]">
-          <h2 className="text-xl font-black text-white">Danh sách tài sản</h2>
-          <Link to="/assets" className="text-[var(--accent-blue)] font-bold text-sm hover:underline">
+        <div className="p-4 lg:p-8 flex justify-between items-center border-b border-[var(--border)]">
+          <h2 className="text-lg lg:text-xl font-black text-white">Danh sách tài sản</h2>
+          <Link to="/assets" className="text-[var(--accent-blue)] font-bold text-sm hover:underline min-h-[44px] flex items-center">
             Xem tất cả →
           </Link>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
+        <div className="overflow-x-auto w-full no-scrollbar">
+          <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="text-[var(--text-muted)] text-[10px] font-black uppercase tracking-widest border-b border-[var(--border)]">
                 <th className="px-8 py-5">Tài sản</th>

@@ -37,15 +37,15 @@ export default function Portfolio() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-4xl font-black text-white flex items-center gap-3">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white flex items-center gap-3">
           <Wallet className="text-[var(--accent-blue)]" size={36} />
           Danh Mục Đầu Tư
         </h1>
-        <p className="text-[var(--text-muted)] mt-2 font-medium">Quản lý giao dịch và theo dõi tài sản ảo của bạn.</p>
+        <p className="text-[var(--text-muted)] mt-2 text-sm lg:text-base font-medium">Quản lý giao dịch và theo dõi tài sản ảo của bạn.</p>
       </div>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         <div className="card bg-gradient-to-br from-[#0f1629] to-[#1a2540] border-[var(--accent-blue)]/30">
           <span className="text-sm font-bold text-[var(--text-muted)] uppercase tracking-wider">Tổng Tài Sản</span>
           <div className="text-4xl font-mono font-black mt-2 text-white">
@@ -78,7 +78,7 @@ export default function Portfolio() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
         {/* Holdings Table */}
         <div className="lg:col-span-2 card p-0 overflow-hidden">
           <div className="p-6 border-b border-[var(--border)] flex items-center gap-3">
@@ -90,8 +90,8 @@ export default function Portfolio() {
               Chưa có tài sản nào. Hãy vào thị trường để mua!
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto w-full no-scrollbar">
+              <table className="w-full text-left whitespace-nowrap">
                 <thead>
                   <tr className="text-[var(--text-muted)] text-[10px] font-black uppercase tracking-widest border-b border-[var(--border)] bg-white/[0.02]">
                     <th className="px-6 py-4">Tài sản</th>

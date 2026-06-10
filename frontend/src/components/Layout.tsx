@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { TickerTape } from './TickerTape';
-import { Search, Bell, LogOut, LogIn, X } from 'lucide-react';
+import { Search, Bell, LogOut, LogIn, X, Menu } from 'lucide-react';
 import { useMarketStore } from '../store/useMarketStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,6 +14,8 @@ const Layout = () => {
   const triggeredAlerts = alerts.filter(a => a.status === 'triggered').length;
   
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleNotification = (e: any) => {
@@ -26,27 +28,50 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
-      <Sidebar />
-      <main className="flex-1 ml-[220px] flex flex-col min-h-screen overflow-x-hidden relative">
+    <div className="flex min-h-dvh bg-[var(--bg-base)] text-[var(--text-primary)]">
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      <main className="flex-1 ml-0 lg:ml-[220px] flex flex-col min-h-dvh overflow-x-hidden relative transition-all duration-300">
         {/* Global Glassmorphism Header */}
-        <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--bg-base)]/70 border-b border-[var(--border)] px-8 py-4 flex items-center justify-between shadow-sm">
-          <div className="relative group w-[400px]">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-blue)] transition-colors" size={18} />
-            <input 
-              type="text" 
-              placeholder="Tìm kiếm tài sản, cổ phiếu, tin tức..."
-              className="w-full bg-[var(--bg-card)]/50 border border-[var(--border)] rounded-full py-2.5 pl-12 pr-6 focus:outline-none focus:border-[var(--accent-blue)] transition-all text-sm backdrop-blur-md"
-            />
-          </div>
-          <div className="flex items-center gap-6">
-            <button className="relative p-2 rounded-full hover:bg-white/5 transition-colors text-[var(--text-muted)] hover:text-white">
-              <Bell size={20} />
-              {triggeredAlerts > 0 && (
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[var(--red)] rounded-full animate-pulse shadow-[0_0_8px_var(--red)]" />
-              )}
-            </button>
-            <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+        <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[var(--bg-base)]/70 border-b border-[var(--border)] px-4 lg:px-8 py-3 lg:py-4 flex flex-col shadow-sm">
+          <div className="flex items-center justify-between w-full">
+            {/* Left: Mobile Menu & Logo */}
+            <div className="flex items-center gap-3">
+              <button 
+                className="lg:hidden p-2 -ml-2 text-[var(--text-muted)] hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center" 
+                onClick={() => setIsSidebarOpen(true)}
+              >
+                <Menu size={24} />
+              </button>
+              <h1 className="lg:hidden text-lg font-black bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent tracking-tight">
+                FLOW
+              </h1>
+              {/* Desktop Search */}
+              <div className="hidden lg:block relative group w-[320px] xl:w-[400px]">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-blue)] transition-colors" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Tìm kiếm tài sản, cổ phiếu, tin tức..."
+                  className="w-full bg-[var(--bg-card)]/50 border border-[var(--border)] rounded-full py-2.5 pl-12 pr-6 focus:outline-none focus:border-[var(--accent-blue)] transition-all text-sm backdrop-blur-md"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 lg:gap-6">
+              {/* Mobile Search Toggle */}
+              <button 
+                className="lg:hidden p-2 text-[var(--text-muted)] hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              >
+                {isMobileSearchOpen ? <X size={20} /> : <Search size={20} />}
+              </button>
+
+              <button className="relative p-2 rounded-full hover:bg-white/5 transition-colors text-[var(--text-muted)] hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center">
+                <Bell size={20} />
+                {triggeredAlerts > 0 && (
+                  <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[var(--red)] rounded-full animate-pulse shadow-[0_0_8px_var(--red)]" />
+                )}
+              </button>
+              <div className="flex items-center gap-2 lg:gap-3 lg:pl-4 lg:border-l lg:border-white/10">
               {user ? (
                 <Link to="/profile" className="flex items-center gap-3 hover:opacity-85 transition-opacity duration-200" title="Xem trang cá nhân">
                   <div className="text-right">
@@ -91,6 +116,22 @@ const Layout = () => {
               )}
             </div>
           </div>
+        </div>
+
+          {/* Mobile Search Dropdown */}
+          {isMobileSearchOpen && (
+            <div className="w-full mt-3 lg:hidden animate-fade-in-up">
+              <div className="relative group w-full">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-blue)] transition-colors" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Tìm kiếm tài sản..."
+                  className="w-full bg-[var(--bg-card)]/50 border border-[var(--border)] rounded-full py-2.5 pl-12 pr-6 focus:outline-none focus:border-[var(--accent-blue)] transition-all text-sm backdrop-blur-md"
+                  autoFocus
+                />
+              </div>
+            </div>
+          )}
         </header>
 
         {/* Ticker Tape */}
@@ -98,7 +139,7 @@ const Layout = () => {
 
         {/* Global Alert Toast */}
         {toastMessage && (
-          <div className="fixed top-24 right-8 z-[100] bg-[#0f1629] border border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.2)] rounded-2xl p-4 flex items-start gap-4 w-80 animate-fade-in-up">
+          <div className="fixed top-24 right-4 left-4 lg:left-auto lg:right-8 z-[100] bg-[#0f1629] border border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.2)] rounded-2xl p-4 flex items-start gap-4 lg:w-80 animate-fade-in-up">
             <div className="p-2 bg-orange-500/20 text-orange-400 rounded-lg shrink-0">
               <Bell size={20} className="animate-pulse" />
             </div>
@@ -113,7 +154,7 @@ const Layout = () => {
         )}
 
         {/* Page Content */}
-        <div className="p-8 flex-1">
+        <div className="p-4 lg:p-8 flex-1">
           <Outlet />
         </div>
       </main>

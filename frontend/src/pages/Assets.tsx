@@ -51,18 +51,18 @@ const Assets = () => {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-4 lg:gap-0">
         <div>
-          <h1 className="text-4xl font-black text-white">Thị trường</h1>
-          <p className="text-[var(--text-muted)] mt-2 font-medium">Danh sách toàn bộ tài sản kỹ thuật số.</p>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white">Thị trường</h1>
+          <p className="text-[var(--text-muted)] mt-2 text-sm lg:text-base font-medium">Danh sách toàn bộ tài sản kỹ thuật số.</p>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center w-full lg:w-auto gap-4">
           <div className="relative group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-blue)]" size={18} />
             <input 
               type="text" 
               placeholder="Tìm kiếm..."
-              className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl py-3 pl-12 pr-6 w-[280px] focus:outline-none focus:border-[var(--accent-blue)]"
+              className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl py-3 pl-12 pr-6 w-full lg:w-[280px] focus:outline-none focus:border-[var(--accent-blue)] min-h-[44px]"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -70,13 +70,13 @@ const Assets = () => {
           <div className="bg-[var(--bg-card)] border border-[var(--border)] p-1 rounded-2xl flex">
             <button 
               onClick={() => setViewMode('grid')}
-              className={clsx("p-2 rounded-xl transition-all", viewMode === 'grid' ? "bg-[var(--accent-blue)] text-white shadow-lg" : "text-[var(--text-muted)] hover:text-white")}
+              className={clsx("p-2 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center flex-1 sm:flex-none", viewMode === 'grid' ? "bg-[var(--accent-blue)] text-white shadow-lg" : "text-[var(--text-muted)] hover:text-white")}
             >
               <Grid size={20} />
             </button>
             <button 
               onClick={() => setViewMode('table')}
-              className={clsx("p-2 rounded-xl transition-all", viewMode === 'table' ? "bg-[var(--accent-blue)] text-white shadow-lg" : "text-[var(--text-muted)] hover:text-white")}
+              className={clsx("p-2 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center flex-1 sm:flex-none", viewMode === 'table' ? "bg-[var(--accent-blue)] text-white shadow-lg" : "text-[var(--text-muted)] hover:text-white")}
             >
               <List size={20} />
             </button>
@@ -85,13 +85,13 @@ const Assets = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-2 border-b border-[var(--border)] pb-0.5">
+      <div className="flex space-x-2 border-b border-[var(--border)] pb-0.5 overflow-x-auto no-scrollbar w-full">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={clsx(
-              "px-6 py-3 text-sm font-black uppercase tracking-widest transition-all relative",
+              "px-6 py-3 text-sm font-black uppercase tracking-widest transition-all relative min-h-[44px] whitespace-nowrap",
               activeTab === tab.id ? "text-[var(--accent-blue)]" : "text-[var(--text-muted)] hover:text-white"
             )}
           >
@@ -105,7 +105,8 @@ const Assets = () => {
 
       {viewMode === 'table' ? (
         <div className="card p-0 overflow-hidden">
-          <table className="w-full text-left">
+          <div className="overflow-x-auto w-full no-scrollbar">
+            <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="text-[var(--text-muted)] text-[10px] font-black uppercase tracking-widest border-b border-[var(--border)]">
                 <th className="px-8 py-5">Tài sản</th>
@@ -140,10 +141,10 @@ const Assets = () => {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex items-center space-x-3">
-                      <button onClick={() => toggleWatchlist(coin.id)} className={clsx("p-2 rounded-xl transition-all", watchlist.includes(coin.id) ? "text-[var(--accent-blue)]" : "text-[var(--text-muted)] hover:text-white")}>
+                      <button onClick={() => toggleWatchlist(coin.id)} className={clsx("p-2 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center", watchlist.includes(coin.id) ? "text-[var(--accent-blue)]" : "text-[var(--text-muted)] hover:text-white")}>
                         <Star size={18} fill={watchlist.includes(coin.id) ? "currentColor" : "none"} />
                       </button>
-                      <button className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-all">
+                      <button className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-all min-h-[44px] min-w-[44px] flex items-center justify-center">
                         <Info size={18} />
                       </button>
                     </div>
@@ -152,9 +153,10 @@ const Assets = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {(filteredCoins ?? []).map(coin => (
             <div key={coin.id} className="card card-hover flex flex-col items-center text-center">
               <div className="flex justify-between w-full mb-4">

@@ -1,10 +1,15 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, TrendingUp, Bell, Wallet, User, Shield } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Bell, Wallet, User, Shield, X } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useAuthStore } from '../store/useAuthStore';
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const { user } = useAuthStore();
 
   // Base navigation items available to all users
@@ -25,12 +30,26 @@ const Sidebar = () => {
   const navItems = [...baseNavItems, ...adminNavItems];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-[220px] bg-[var(--bg-card)] border-r border-[var(--border)] flex flex-col z-20">
-      <div className="p-8">
-        <h1 className="text-xl font-black bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent tracking-tight">
-          Market Monitor
-        </h1>
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[50] lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+      <aside className={clsx(
+        "fixed left-0 top-0 h-dvh w-[220px] bg-[var(--bg-card)] border-r border-[var(--border)] flex flex-col z-[60] lg:z-20 transition-transform duration-300 lg:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-8 flex items-center justify-between">
+          <h1 className="text-xl font-black bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent tracking-tight">
+            FLOW
+          </h1>
+          <button className="lg:hidden text-[var(--text-muted)] hover:text-white p-2 -mr-2" onClick={() => setIsOpen(false)}>
+            <X size={20} />
+          </button>
+        </div>
 
       <nav className="flex-1 px-4 space-y-2">
         {navItems.map((item) => (
@@ -40,11 +59,12 @@ const Sidebar = () => {
             className={({ isActive }) =>
               twMerge(
                 clsx(
-                  "flex items-center space-x-3 px-4 py-3 rounded-2xl transition-all duration-200 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]",
+                  "flex items-center space-x-3 px-4 py-3 min-h-[44px] rounded-2xl transition-all duration-200 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]",
                   isActive && "bg-[var(--accent-blue)] text-white hover:bg-[var(--accent-blue)] hover:text-white shadow-[0_8px_20px_-8px_rgba(59,130,246,0.5)]"
                 )
               )
             }
+            onClick={() => setIsOpen(false)}
           >
             <item.icon size={20} />
             <span className="font-bold text-sm">{item.name}</span>
@@ -66,6 +86,7 @@ const Sidebar = () => {
         </div>
       </div>
     </aside>
+    </>
   );
 };
 

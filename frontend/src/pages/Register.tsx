@@ -30,45 +30,59 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-4">
-      <div className="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-700">
-        <h2 className="text-3xl font-bold mb-6 text-center text-green-400">Create Account</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1a1f3a] to-[#0f172a] text-white p-4">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-[500px] mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-black mb-2 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+            Tạo tài khoản
+          </h1>
+          <p className="text-[var(--text-muted)] text-sm">
+            Tham gia Market Monitor ngay hôm nay
+          </p>
+        </div>
         
         {error && (
-          <div className="bg-red-500/10 border border-red-500 text-red-400 p-3 rounded mb-4 flex items-center gap-2 text-sm">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl mb-4 flex items-center gap-2 text-sm">
             <AlertCircle size={18} /> {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-300">Email</label>
+            <label className="block text-sm font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Email</label>
             <input
               type="email"
-              className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 text-white focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all"
+              className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-300">Password</label>
+            <label className="block text-sm font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Mật khẩu</label>
             <input
               type="password"
-              className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 text-white focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all"
+              className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
               required
             />
           </div>
-          <button type="submit" className="w-full bg-green-600 hover:bg-green-500 py-2.5 rounded font-semibold transition-colors mt-2">
-            Sign Up
+          <button type="submit" className="w-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black py-3 rounded-xl transition-all uppercase tracking-wider text-sm min-h-[44px] mt-4">
+            Đăng ký
           </button>
         </form>
         
-        <p className="mt-6 text-center text-sm text-gray-400">
-          Already have an account? <Link to="/login" className="text-green-400 hover:text-green-300 font-medium">Log in</Link>
-        </p>
+        <div className="mt-6 border-t border-white/10 pt-4 text-center">
+          <p className="text-sm text-[var(--text-muted)]">
+            Đã có tài khoản?{' '}
+            <Link to="/login" className="text-[var(--accent-blue)] hover:text-[var(--accent-cyan)] font-bold transition-colors min-h-[44px] inline-flex items-center">
+              Đăng nhập
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

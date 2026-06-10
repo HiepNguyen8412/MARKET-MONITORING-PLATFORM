@@ -88,7 +88,7 @@ const Login = () => {
   if (isResetMode) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1a1f3a] to-[#0f172a] text-white p-4">
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl w-full max-w-md">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-[500px] mx-auto">
           <div className="mb-8">
             <h2 className="text-3xl font-black mb-2 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
               Đặt lại mật khẩu
@@ -119,7 +119,7 @@ const Login = () => {
                 <Mail size={18} className="absolute left-3 top-3.5 text-[var(--text-muted)]" />
                 <input
                   type="email"
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all"
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
                   placeholder="your@email.com"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
@@ -136,7 +136,7 @@ const Login = () => {
                 <Lock size={18} className="absolute left-3 top-3.5 text-[var(--text-muted)]" />
                 <input
                   type={showNewPassword ? 'text' : 'password'}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 pr-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all"
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 pr-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
                   placeholder="••••••••"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -145,7 +145,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-3.5 text-[var(--text-muted)] hover:text-white transition-colors"
+                  className="absolute right-3 top-3.5 text-[var(--text-muted)] hover:text-white transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center -mt-2"
                 >
                   {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -155,7 +155,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={resetLoading}
-              className="w-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black py-3 rounded-xl transition-all uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black py-3 rounded-xl transition-all uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
             >
               {resetLoading ? 'Đang xử lý...' : 'Xác nhận đổi mật khẩu'}
             </button>
@@ -169,7 +169,7 @@ const Login = () => {
               setResetError('');
               setResetSuccess(false);
             }}
-            className="w-full mt-4 px-4 py-3 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 text-white text-sm font-bold transition-all"
+            className="w-full mt-4 px-4 py-3 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 text-white text-sm font-bold transition-all min-h-[44px]"
           >
             Quay lại Đăng nhập
           </button>
@@ -181,7 +181,7 @@ const Login = () => {
   // LOGIN MODE
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1a1f3a] to-[#0f172a] text-white p-4">
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl w-full max-w-md">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-[500px] mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
             Market Monitor
@@ -206,7 +206,7 @@ const Login = () => {
               <Mail size={18} className="absolute left-3 top-3.5 text-[var(--text-muted)]" />
               <input
                 type="email"
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all"
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -223,7 +223,7 @@ const Login = () => {
               <Lock size={18} className="absolute left-3 top-3.5 text-[var(--text-muted)]" />
               <input
                 type={showPassword ? 'text' : 'password'}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 pr-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all"
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 pl-10 pr-10 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 focus:bg-white/5 transition-all min-h-[44px]"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -232,7 +232,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3.5 text-[var(--text-muted)] hover:text-white transition-colors"
+                className="absolute right-3 top-3.5 text-[var(--text-muted)] hover:text-white transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center -mt-2"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -242,7 +242,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black py-3 rounded-xl transition-all uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black py-3 rounded-xl transition-all uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
           >
             {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
@@ -251,7 +251,7 @@ const Login = () => {
         <div className="mt-6 space-y-3">
           <button
             onClick={() => setIsResetMode(true)}
-            className="w-full text-sm text-[var(--accent-blue)] hover:text-[var(--accent-cyan)] font-bold transition-colors"
+            className="w-full text-sm text-[var(--accent-blue)] hover:text-[var(--accent-cyan)] font-bold transition-colors min-h-[44px]"
           >
             Quên mật khẩu?
           </button>
@@ -262,7 +262,7 @@ const Login = () => {
             </p>
             <Link
               to="/register"
-              className="w-full block text-center px-4 py-3 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 text-white text-sm font-bold transition-all"
+              className="w-full block text-center px-4 py-3 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 text-white text-sm font-bold transition-all min-h-[44px]"
             >
               Đăng ký ngay
             </Link>

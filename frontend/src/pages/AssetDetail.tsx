@@ -212,32 +212,34 @@ export default function AssetDetail() {
   return (
     <div className="space-y-6 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center space-x-4 mb-4">
-        <Link to="/dashboard" className="p-2 bg-white/5 hover:bg-white/10 rounded-xl transition-colors">
-          <ArrowLeft size={20} className="text-white" />
-        </Link>
-        {displayImage ? (
-          <img src={displayImage} alt={displayName} className="w-10 h-10 rounded-full" />
-        ) : (
-          <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-2xl">{displayIcon}</div>
-        )}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+        <div className="flex items-center space-x-4">
+          <Link to="/dashboard" className="p-2 bg-white/5 hover:bg-white/10 rounded-xl transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+            <ArrowLeft size={20} className="text-white" />
+          </Link>
+          {displayImage ? (
+            <img src={displayImage} alt={displayName} className="w-10 h-10 rounded-full" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-2xl">{displayIcon}</div>
+          )}
+        </div>
         <div>
-          <h1 className="text-3xl font-black text-white flex items-center gap-3">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white flex items-center gap-3">
             {displayName}
-            <span className="text-lg text-[var(--text-muted)] uppercase bg-white/5 px-3 py-1 rounded-lg">
+            <span className="text-sm lg:text-lg text-[var(--text-muted)] uppercase bg-white/5 px-3 py-1 rounded-lg">
               {displaySymbol}
             </span>
           </h1>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Main Chart Section */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="card">
-            <div className="flex justify-between items-center mb-6">
+        <div className="lg:col-span-2 space-y-4 lg:space-y-6 order-1">
+          <div className="card p-4 lg:p-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 lg:gap-0">
               <div>
-                <div className="text-4xl font-mono font-black text-white">
+                <div className="text-3xl lg:text-4xl font-mono font-black text-white">
                   ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </div>
                 <div className={`text-sm font-bold mt-2 flex items-center gap-1 ${change24h >= 0 ? 'text-[var(--green)]' : 'text-[var(--red)]'}`}>
@@ -245,13 +247,12 @@ export default function AssetDetail() {
                   {Math.abs(change24h).toFixed(2)}% (24h)
                 </div>
               </div>
-              
-              <div className="flex bg-[#0a0e1a] rounded-xl p-1 border border-white/5">
+              <div className="flex bg-[#0a0e1a] rounded-xl p-1 border border-white/5 w-full lg:w-auto overflow-x-auto no-scrollbar">
                 {['1h', '1d', '1w', '1m'].map((tf) => (
                   <button
                     key={tf}
                     onClick={() => setTimeframe(tf)}
-                    className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${
+                    className={`px-4 py-1.5 min-h-[44px] rounded-lg text-xs font-black uppercase transition-all whitespace-nowrap flex-1 lg:flex-none ${
                       timeframe === tf ? 'bg-white/10 text-white' : 'text-[var(--text-muted)] hover:text-white'
                     }`}
                   >
@@ -269,7 +270,7 @@ export default function AssetDetail() {
               <div className="flex items-center gap-2"><div className="w-4 h-0 border-t border-dashed border-[#a16207]"></div> Kháng cự/Hỗ trợ</div>
             </div>
 
-            <div className="h-[400px] w-full">
+            <div className="w-full aspect-video">
               {loading ? (
                 <div className="w-full h-full animate-pulse bg-white/5 rounded-2xl" />
               ) : (
@@ -280,9 +281,55 @@ export default function AssetDetail() {
         </div>
 
         {/* Sidebar Info */}
-        <div className="space-y-6">
+        <div className="lg:col-span-1 flex flex-col gap-4 lg:gap-6 order-2">
+          {/* Paper Trading Panel */}
+          <div className="card border-[var(--border)] order-1 lg:order-1 p-4 lg:p-8">
+            <h3 className="font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+              <DollarSign size={18} className="text-[var(--green)]" />
+              Giao Dịch Mô Phỏng
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <input 
+                  type="number" 
+                  min="0.0001" 
+                  step="any" 
+                  value={tradeAmount} 
+                  onChange={(e) => setTradeAmount(e.target.value)}
+                  className="flex-1 bg-[var(--bg-base)] border border-[var(--border)] rounded-xl px-4 py-3 text-white font-mono focus:outline-none focus:border-[var(--accent-blue)] min-h-[44px]"
+                  placeholder="Số lượng"
+                />
+                <span className="font-bold text-[var(--text-muted)] uppercase px-2">{displaySymbol}</span>
+              </div>
+              
+              <div className="text-sm font-bold text-[var(--text-muted)] flex justify-between">
+                <span>Ước tính:</span>
+                <span className="text-white font-mono">
+                  ${(parseFloat(tradeAmount || '0') * currentPrice).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <button 
+                  onClick={() => handleTrade('BUY')}
+                  disabled={isTradeLoading || !parseFloat(tradeAmount)}
+                  className="bg-[var(--green)]/10 text-[var(--green)] hover:bg-[var(--green)] hover:text-white border border-[var(--green)]/30 font-black py-3 rounded-xl transition-all disabled:opacity-50 uppercase min-h-[44px]"
+                >
+                  Mua vào
+                </button>
+                <button 
+                  onClick={() => handleTrade('SELL')}
+                  disabled={isTradeLoading || !parseFloat(tradeAmount)}
+                  className="bg-[var(--red)]/10 text-[var(--red)] hover:bg-[var(--red)] hover:text-white border border-[var(--red)]/30 font-black py-3 rounded-xl transition-all disabled:opacity-50 uppercase min-h-[44px]"
+                >
+                  Bán ra
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* AI Prediction */}
-          <div className="card border-[var(--accent-blue)] relative overflow-hidden">
+          <div className="card border-[var(--accent-blue)] relative overflow-hidden order-2 lg:order-2 p-4 lg:p-8">
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-blue)]/10 to-transparent" />
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-6 text-[var(--accent-blue)]">
@@ -307,59 +354,13 @@ export default function AssetDetail() {
               </div>
               
               <p className="mt-6 text-xs text-[var(--text-muted)] leading-relaxed font-medium">
-                Mô hình Machine Learning phân tích dựa trên khối lượng giao dịch, tín hiệu on-chain và tâm lý mạng xã hội cho thấy động lực tăng giá mạnh trong 24-48 giờ tới.
+                Mô hình Machine Learning phân tích cho thấy động lực tăng giá mạnh trong 24-48 giờ tới.
               </p>
             </div>
           </div>
 
-          {/* Paper Trading Panel */}
-          <div className="card border-[var(--border)]">
-            <h3 className="font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-              <DollarSign size={18} className="text-[var(--green)]" />
-              Giao Dịch Mô Phỏng
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <input 
-                  type="number" 
-                  min="0.0001" 
-                  step="any" 
-                  value={tradeAmount} 
-                  onChange={(e) => setTradeAmount(e.target.value)}
-                  className="flex-1 bg-[var(--bg-base)] border border-[var(--border)] rounded-xl px-4 py-3 text-white font-mono focus:outline-none focus:border-[var(--accent-blue)]"
-                  placeholder="Số lượng"
-                />
-                <span className="font-bold text-[var(--text-muted)] uppercase px-2">{displaySymbol}</span>
-              </div>
-              
-              <div className="text-sm font-bold text-[var(--text-muted)] flex justify-between">
-                <span>Ước tính:</span>
-                <span className="text-white font-mono">
-                  ${(parseFloat(tradeAmount || '0') * currentPrice).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                <button 
-                  onClick={() => handleTrade('BUY')}
-                  disabled={isTradeLoading || !parseFloat(tradeAmount)}
-                  className="bg-[var(--green)]/10 text-[var(--green)] hover:bg-[var(--green)] hover:text-white border border-[var(--green)]/30 font-black py-3 rounded-xl transition-all disabled:opacity-50 uppercase"
-                >
-                  Mua vào
-                </button>
-                <button 
-                  onClick={() => handleTrade('SELL')}
-                  disabled={isTradeLoading || !parseFloat(tradeAmount)}
-                  className="bg-[var(--red)]/10 text-[var(--red)] hover:bg-[var(--red)] hover:text-white border border-[var(--red)]/30 font-black py-3 rounded-xl transition-all disabled:opacity-50 uppercase"
-                >
-                  Bán ra
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Technical Info */}
-          <div className="card">
+          <div className="card order-3 lg:order-3 p-4 lg:p-8">
             <h3 className="font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
               <Activity size={18} className="text-[var(--text-muted)]" />
               Thông số kỹ thuật

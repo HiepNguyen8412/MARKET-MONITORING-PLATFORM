@@ -54,7 +54,7 @@ export const SetAlertModal: React.FC<Props> = ({ isOpen, onClose, defaultAssetId
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="card w-full max-w-md bg-[#0f1629] border border-[var(--border)] relative shadow-2xl">
+      <div className="card w-full max-w-[500px] mx-4 bg-[#0f1629] border border-[var(--border)] relative shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
           <X size={20} />
         </button>
@@ -81,7 +81,7 @@ export const SetAlertModal: React.FC<Props> = ({ isOpen, onClose, defaultAssetId
             <select 
               value={assetId}
               onChange={(e) => setAssetId(Number(e.target.value))}
-              className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors min-h-[44px]"
             >
               {availableAssets.map(asset => (
                 <option key={asset.id} value={asset.id} className="bg-gray-800">
@@ -97,7 +97,7 @@ export const SetAlertModal: React.FC<Props> = ({ isOpen, onClose, defaultAssetId
               <select 
                 value={type}
                 onChange={(e) => setType(e.target.value as 'ABOVE' | 'BELOW')}
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors min-h-[44px]"
               >
                 <option value="ABOVE" className="bg-gray-800">Rises Above (≥)</option>
                 <option value="BELOW" className="bg-gray-800">Drops Below (≤)</option>
@@ -111,7 +111,7 @@ export const SetAlertModal: React.FC<Props> = ({ isOpen, onClose, defaultAssetId
                 value={targetPrice}
                 onChange={(e) => setTargetPrice(e.target.value)}
                 placeholder="e.g. 65000"
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-[var(--accent-blue)] transition-colors min-h-[44px]"
               />
             </div>
           </div>
@@ -119,7 +119,7 @@ export const SetAlertModal: React.FC<Props> = ({ isOpen, onClose, defaultAssetId
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full bg-[var(--accent-blue)] hover:bg-blue-600 text-white font-black uppercase tracking-wider py-3 rounded-xl transition-colors mt-4 disabled:opacity-50"
+            className="w-full bg-[var(--accent-blue)] hover:bg-blue-600 text-white font-black uppercase tracking-wider py-3 rounded-xl transition-colors mt-4 disabled:opacity-50 min-h-[44px]"
           >
             {isLoading ? 'Creating...' : 'Create Alert'}
           </button>

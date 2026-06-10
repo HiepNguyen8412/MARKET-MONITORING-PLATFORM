@@ -157,10 +157,10 @@ const Profile = () => {
       <div className="space-y-8 animate-fade-in-up">
         {/* Header */}
         <div>
-          <h1 className="text-4xl font-black text-white">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white">
             Thông tin <span className="text-[var(--accent-blue)]">Tài khoản</span>
           </h1>
-          <p className="text-[var(--text-muted)] mt-2 font-medium">
+          <p className="text-[var(--text-muted)] mt-2 text-sm lg:text-base font-medium">
             Admin Panel - Xem thông tin lưu trữ phiên đăng nhập, chi tiết bảo mật và quản lý hệ thống.
           </p>
         </div>
@@ -208,12 +208,12 @@ const Profile = () => {
                       value={depositAmount}
                       onChange={(e) => setDepositAmount(e.target.value)}
                       placeholder="Nhập số tiền"
-                      className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 transition-colors"
+                      className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 transition-colors min-h-[44px]"
                     />
                     <button
                       onClick={handleDeposit}
                       disabled={isDepositing}
-                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-h-[44px]"
                     >
                       {isDepositing ? (
                         <>
@@ -239,7 +239,7 @@ const Profile = () => {
                     <button
                       key={amount}
                       onClick={() => handleQuickDeposit(amount)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 hover:border-[var(--accent-blue)]/30 text-white text-sm font-bold transition-all group"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 hover:border-[var(--accent-blue)]/30 text-white text-sm font-bold transition-all group min-h-[44px]"
                     >
                       <span className="group-hover:text-[var(--accent-blue)] transition-colors">
                         +{amount.toLocaleString('vi-VN')}₫
@@ -276,7 +276,7 @@ const Profile = () => {
 
               <button 
                 onClick={handleLogout}
-                className="mt-8 w-full flex items-center justify-center gap-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 py-3 rounded-2xl font-bold transition-all duration-200"
+                className="mt-8 w-full flex items-center justify-center gap-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 py-3 rounded-2xl font-bold transition-all duration-200 min-h-[44px]"
               >
                 <LogOut size={18} />
                 <span>Đăng xuất tài khoản</span>
@@ -373,7 +373,7 @@ const Profile = () => {
                     
                     <button 
                       onClick={handleCopyToken}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-[var(--text-muted)] hover:text-white transition-all border border-white/5"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-[var(--text-muted)] hover:text-white transition-all border border-white/5 min-h-[44px]"
                       title="Copy token to clipboard"
                     >
                       {copied ? (
@@ -428,8 +428,8 @@ const Profile = () => {
               Không có người dùng nào được đăng ký.
             </div>
           ) : (
-            <div className="overflow-x-auto relative z-10">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto w-full no-scrollbar relative z-10">
+              <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
                   <tr className="border-b border-white/10 text-xs font-black uppercase tracking-wider text-slate-400">
                     <th className="py-4 px-6">ID</th>
@@ -475,10 +475,10 @@ const Profile = () => {
     <div className="space-y-8 animate-fade-in-up">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-black text-white">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white">
           Thông tin <span className="text-[var(--accent-blue)]">Tài khoản</span>
         </h1>
-        <p className="text-[var(--text-muted)] mt-2 font-medium">
+        <p className="text-[var(--text-muted)] mt-2 text-sm lg:text-base font-medium">
           Xem và quản lý thông tin tài khoản cá nhân của bạn.
         </p>
       </div>
@@ -526,12 +526,12 @@ const Profile = () => {
                     value={depositAmount}
                     onChange={(e) => setDepositAmount(e.target.value)}
                     placeholder="Nhập số tiền"
-                    className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 transition-colors"
+                    className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue)]/50 transition-colors min-h-[44px]"
                   />
                   <button
                     onClick={handleDeposit}
                     disabled={isDepositing}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-cyan)] hover:shadow-lg hover:shadow-[var(--accent-blue)]/30 text-white font-black text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-h-[44px]"
                   >
                     {isDepositing ? (
                       <>
@@ -557,7 +557,7 @@ const Profile = () => {
                   <button
                     key={amount}
                     onClick={() => handleQuickDeposit(amount)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 hover:border-[var(--accent-blue)]/30 text-white text-sm font-bold transition-all group"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/5 hover:border-[var(--accent-blue)]/30 text-white text-sm font-bold transition-all group min-h-[44px]"
                   >
                     <span className="group-hover:text-[var(--accent-blue)] transition-colors">
                       +{amount.toLocaleString('vi-VN')}₫
@@ -572,7 +572,7 @@ const Profile = () => {
 
       {/* Profile Card - Centered for Regular Users */}
       <div className="flex justify-center">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-[500px]">
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center shadow-2xl relative overflow-hidden group">
             {/* Background Decorative Blur */}
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--accent-blue)]/20 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-500" />
@@ -594,7 +594,7 @@ const Profile = () => {
 
             <button 
               onClick={handleLogout}
-              className="mt-8 w-full flex items-center justify-center gap-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 py-3 rounded-2xl font-bold transition-all duration-200"
+              className="mt-8 w-full flex items-center justify-center gap-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 py-3 rounded-2xl font-bold transition-all duration-200 min-h-[44px]"
             >
               <LogOut size={18} />
               <span>Đăng xuất tài khoản</span>
