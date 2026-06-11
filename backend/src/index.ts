@@ -16,13 +16,9 @@ import { startScraperService } from './services/scraperService';
 
 dotenv.config();
 
-const app = express();
-const httpServer = createServer(app);
-export const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.FRONTEND_URL || '*',
-  },
-});
+export const app = express();
+let httpServer: ReturnType<typeof createServer> | null = null;
+export let io: Server | null = null;
 
 export const prisma = new PrismaClient();
 // Mock redis client to bypass Redis requirement for standalone run
@@ -62,14 +58,23 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/crypto', cryptoRoutes);
 
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-  });
-});
-
 const PORT = process.env.PORT || 4000;
+
+function setupSocketServer() {
+  httpServer = createServer(app);
+  io = new Server(httpServer, {
+    cors: {
+      origin: process.env.FRONTEND_URL || '*',
+    },
+  });
+
+  io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+    socket.on('disconnect', () => {
+      console.log('Client disconnected:', socket.id);
+    });
+  });
+}
 
 async function startServer() {
   await redisClient.connect();
@@ -91,11 +96,15 @@ async function startServer() {
     console.error('Error creating default user:', err);
   }
 
-  httpServer.listen(PORT, () => {
+  setupSocketServer();
+
+  httpServer?.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
     startMockDataEngine();
     startScraperService();
   });
 }
 
-startServer().catch(console.error);
+if (!process.env.VERCEL) {
+  startServer().catch(console.error);
+}

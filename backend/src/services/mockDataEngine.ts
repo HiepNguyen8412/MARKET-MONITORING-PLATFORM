@@ -25,7 +25,7 @@ export function startMockDataEngine() {
           }
         });
 
-        io.emit('price_update', {
+        io?.emit('price_update', {
           symbol: updatedAsset.symbol,
           price: newPrice,
           timestamp: marketData.timestamp
@@ -60,7 +60,7 @@ async function triggerAlert(alertId: number) {
     include: { asset: true }
   });
   
-  io.emit('alert_triggered', {
+  io?.emit('alert_triggered', {
     userId: alert.userId,
     message: `Alert triggered: ${alert.asset.symbol} crossed your target price of ${alert.targetPrice}`
   });
