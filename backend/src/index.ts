@@ -45,6 +45,19 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 
+app.get('/api/market-data', async (req, res) => {
+  try {
+    const data = await prisma.scrapedMarketData.findMany({
+      orderBy: { lastUpdated: 'desc' },
+      take: 100,
+    });
+    res.json(data);
+  } catch (error) {
+    console.error('Market data query error:', error);
+    res.status(500).json({ message: 'Chưa có dữ liệu' });
+  }
+});
+
 const execAsync = promisify(exec);
 const PORT = process.env.PORT || 4000;
 
