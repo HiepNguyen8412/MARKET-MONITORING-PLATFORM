@@ -7,12 +7,18 @@ import { clsx } from 'clsx';
 import { Sparkline } from '../components/Sparkline';
 
 export default function Portfolio() {
-  const { balance, holdings, transactions, fetchPortfolio, isLoading } = usePortfolioStore();
+  const balance = usePortfolioStore((state) => state.balance);
+  const holdings = usePortfolioStore((state) => state.holdings);
+  const transactions = usePortfolioStore((state) => state.transactions);
+  const isLoading = usePortfolioStore((state) => state.isLoading);
+  const fetchPortfolio = usePortfolioStore((state) => state.fetchPortfolio);
   const { coins } = useMarketStore();
 
   useEffect(() => {
     fetchPortfolio();
-  }, [fetchPortfolio]);
+    // Only fetch once on mount - DO NOT add fetchPortfolio to dependencies
+    // Zustand store functions can cause infinite loops if added as dependencies
+  }, []);
 
   // Calculate current value of holdings
   let totalHoldingsValue = 0;

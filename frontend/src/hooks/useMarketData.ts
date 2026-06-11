@@ -5,7 +5,13 @@ import { useMarketStore } from '../store/useMarketStore';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export const useMarketData = () => {
-  const { setCoins, setGlobalData, setHistory, checkAlerts, setIsLoading, setError } = useMarketStore();
+  const setCoins = useMarketStore((state) => state.setCoins);
+  const setGlobalData = useMarketStore((state) => state.setGlobalData);
+  const setHistory = useMarketStore((state) => state.setHistory);
+  const checkAlerts = useMarketStore((state) => state.checkAlerts);
+  const setIsLoading = useMarketStore((state) => state.setIsLoading);
+  const setError = useMarketStore((state) => state.setError);
+  
   const refreshInterval = useRef<any>(null);
 
   const fetchCoinHistory = async (coinId: string) => {
@@ -71,7 +77,7 @@ export const useMarketData = () => {
     return () => {
       if (refreshInterval.current) clearInterval(refreshInterval.current);
     };
-  }, []);
+  }, [setCoins, setGlobalData, setHistory, checkAlerts, setIsLoading, setError]);
 
   return { refresh: fetchData, fetchCoinHistory };
 };

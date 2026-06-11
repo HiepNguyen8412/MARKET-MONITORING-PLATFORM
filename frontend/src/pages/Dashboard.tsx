@@ -138,11 +138,14 @@ const Dashboard = () => {
   // Alert Modal State
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertDefaultAsset, setAlertDefaultAsset] = useState<number | undefined>();
-  const { availableAssets, fetchAvailableAssets } = useWatchlistStore();
+  const availableAssets = useWatchlistStore((state) => state.availableAssets);
+  const fetchAvailableAssets = useWatchlistStore((state) => state.fetchAvailableAssets);
 
   useEffect(() => {
     fetchAvailableAssets();
-  }, [fetchAvailableAssets]);
+    // Only fetch once on mount - DO NOT add fetchAvailableAssets to dependencies
+    // Zustand store functions can cause infinite loops if added as dependencies
+  }, []);
 
   const handleOpenAlertModal = (symbol?: string) => {
     if (!useAuthStore.getState().token) {
