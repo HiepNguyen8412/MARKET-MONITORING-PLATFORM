@@ -15,6 +15,7 @@ RUN npm install
 # THÊM 2 DÒNG NÀY ĐỂ PRISMA KHÔNG BỊ LỖI KHI BUILD
 ENV PRISMA_CLI_BINARY_TARGETS=debian-openssl-3.0.x
 RUN npx prisma generate
+RUN npx prisma db push
 
 # Copy source and build
 COPY . .
