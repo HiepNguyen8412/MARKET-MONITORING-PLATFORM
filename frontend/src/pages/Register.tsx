@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { AlertCircle } from 'lucide-react';
+import { formatErrorMessage } from '../utils/apiErrorHandler';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
       const response = await fetch(`${API_URL}/api/auth/register`, {
@@ -26,7 +28,10 @@ const Register = () => {
       setAuth(data.token, data.user);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.message);
+      // ✅ FIX: Use centralized error formatting
+      const errorMsg = formatErrorMessage(err);
+      setError(errorMsg);
+      console.error('Registration error:', err);
     }
   };
 

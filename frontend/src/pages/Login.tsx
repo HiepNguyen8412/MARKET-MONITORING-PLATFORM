@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { AlertCircle, Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { isAuthenticationError, formatErrorMessage } from '../utils/apiErrorHandler';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -34,12 +35,32 @@ const Login = () => {
       });
       
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Login failed');
+      if (!response.ok) {
+        // ✅ FIX: Handle authentication errors properly
+        const errorMessage = data.error || 'Login failed';
+        
+        // If it's an authentication error (invalid credentials), STOP here
+        if (response.status === 400 || errorMessage.includes('Invalid credentials')) {
+          console.warn('❌ Invalid credentials - not retrying');
+          throw new Error(errorMessage);
+        }
+        
+        // For other errors, throw normally
+        throw new Error(errorMessage);
+      }
       
       setAuth(data.token, data.user);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.message);
+      // ✅ FIX: Format error message based on error type
+      const errorMsg = formatErrorMessage(err);
+      setError(errorMsg);
+      console.error('Login error:', err);
+      
+      // Don't retry authentication errors
+      if (isAuthenticationError(err)) {
+        console.warn('⛔ Authentication failed - stopping automatic retries');
+      }
     } finally {
       setLoading(false);
     }

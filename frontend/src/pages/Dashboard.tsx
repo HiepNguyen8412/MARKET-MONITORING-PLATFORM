@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMarketStore } from '../store/useMarketStore';
 import { useWatchlistStore } from '../store/useWatchlistStore';
 import { useMarketData } from '../hooks/useMarketData';
@@ -141,11 +141,16 @@ const Dashboard = () => {
   const availableAssets = useWatchlistStore((state) => state.availableAssets);
   const fetchAvailableAssets = useWatchlistStore((state) => state.fetchAvailableAssets);
 
-  useEffect(() => {
+  // ✅ FIX: Use useCallback to memoize the fetch function to avoid re-renders
+  const handleFetchAvailableAssets = useCallback(() => {
     fetchAvailableAssets();
-    // Only fetch once on mount - DO NOT add fetchAvailableAssets to dependencies
-    // Zustand store functions can cause infinite loops if added as dependencies
   }, []);
+
+  useEffect(() => {
+    handleFetchAvailableAssets();
+    // Only fetch once on mount - DO NOT add fetchAvailableAssets to dependencies
+    // Instead, use a stable callback wrapper to prevent infinite loops
+  }, [handleFetchAvailableAssets]);
 
   const handleOpenAlertModal = (symbol?: string) => {
     if (!useAuthStore.getState().token) {
