@@ -36,20 +36,15 @@ app.use(
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
 
-      const isLocalhost =
-        origin.startsWith('http://localhost') ||
-        origin.startsWith('https://localhost') ||
-        origin.startsWith('http://127.0.0.1') ||
-        origin.startsWith('https://127.0.0.1');
-
-      if (origin.endsWith('.vercel.app') || isLocalhost) {
+      if (origin.includes('vercel.app') || origin.includes('localhost')) {
         return callback(null, true);
       }
 
-      return callback(new Error('Not allowed by CORS'), false);
+      return callback(new Error('CORS not allowed by server'), false);
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
