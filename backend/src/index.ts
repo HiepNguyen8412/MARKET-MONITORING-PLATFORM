@@ -37,6 +37,7 @@ const defaultOrigins = [
   'http://localhost:5173',
   'http://localhost:3001',
   'http://localhost:4000',
+  'https://market-monitoring-platform.vercel.app',
   'https://market-monitoring-platform-qyaf20ni4-hiepnguyen8413.vercel.app',
 ];
 
@@ -44,10 +45,11 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-      const allowed = FRONTEND_URL ? [FRONTEND_URL] : defaultOrigins;
+      const allowed = FRONTEND_URL ? [FRONTEND_URL, ...defaultOrigins] : defaultOrigins;
       if (allowed.includes(origin) || allowed.includes('*')) return callback(null, true);
       return callback(new Error('CORS not allowed'), false);
     },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   })
 );
