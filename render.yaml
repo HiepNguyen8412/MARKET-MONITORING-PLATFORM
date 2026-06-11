@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: flow-backend
+    env: docker
+    plan: starter
+    dockerfilePath: backend/Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: JWT_SECRET
+        value: "supersecretjwt"
+      - key: PORT
+        value: "4000"
+      - key: FRONTEND_URL
+        value: "https://your-frontend-url.com"
+      - key: DATABASE_URL
+        value: "postgresql://postgres:password@<your-db-host>:5432/market_db?schema=public"
+      - key: REDIS_URL
+        value: "redis://<your-redis-host>:6379"
+
+  - type: postgres
+    name: flow-db
+    plan: starter
+    env: postgres
+    databaseName: market_db
+
+  - type: redis
+    name: flow-redis
+    plan: starter
