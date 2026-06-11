@@ -8,13 +8,6 @@ import { exec, execSync } from 'child_process';
 import { promisify } from 'util';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
-import cryptoRoutes from './routes/cryptoRoutes';
-import assetRoutes from './routes/assetRoutes';
-import watchlistRoutes from './routes/watchlistRoutes';
-import alertRoutes from './routes/alertRoutes';
-import portfolioRoutes from './routes/portfolioRoutes';
-import { startMockDataEngine } from './services/mockDataEngine';
-import { startScraperService } from './services/scraperService';
 
 dotenv.config();
 
@@ -51,11 +44,6 @@ app.use(
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/assets', assetRoutes);
-app.use('/api/watchlists', watchlistRoutes);
-app.use('/api/alerts', alertRoutes);
-app.use('/api/portfolio', portfolioRoutes);
-app.use('/api/crypto', cryptoRoutes);
 
 const execAsync = promisify(exec);
 const PORT = process.env.PORT || 4000;
@@ -125,9 +113,7 @@ async function startServer() {
 
   httpServer?.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
-    // Disabled auto engines to reduce background load and avoid 429 abuse.
-    // startMockDataEngine();
-    // startScraperService();
+    // Disabled all background engines to keep backend focused on Auth only.
   });
 }
 
