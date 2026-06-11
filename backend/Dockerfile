@@ -1,37 +1,26 @@
-# Stage 1: Builder
-FROM node:20-alpine AS builder
+FROM node:18-alpine
+
+# Cài OpenSSL cho Alpine để Prisma có thể tìm libssl
+RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-# Install dependencies
+# Copy package files and (optional) prisma schema
 COPY package*.json ./
 COPY prisma ./prisma/
+
+# Cài dependencies
 RUN npm install
 
-# Copy source code and build
-COPY . .
+# THÊM 2 DÒNG NÀY ĐỂ PRISMA KHÔNG BỊ LỖI KHI BUILD
+ENV PRISMA_CLI_BINARY_TARGETS=debian-openssl-3.0.x
 RUN npx prisma generate
+
+# Copy source and build
+COPY . .
 RUN npm run build
-
-# Stage 2: Production Runner
-FROM node:20-alpine AS runner
-
-WORKDIR /app
-ENV NODE_ENV=production
-
-# Copy necessary files from builder
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-
-# Change ownership before switching user
-RUN chown -R node:node /app
-
-# Run as non-root user
-USER node
 
 EXPOSE 4000
 
-# Execute Prisma push and start the server
-CMD ["sh", "-c", "npx prisma db push && node dist/index.js"]
+# Start application
+CMD ["npm", "start"]
