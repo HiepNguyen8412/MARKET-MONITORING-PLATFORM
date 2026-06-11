@@ -4,6 +4,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { PrismaClient } from '@prisma/client';
 import { createClient } from 'redis';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import cryptoRoutes from './routes/cryptoRoutes';
@@ -58,7 +60,20 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/crypto', cryptoRoutes);
 
+const execAsync = promisify(exec);
 const PORT = process.env.PORT || 4000;
+
+async function initDatabase() {
+  try {
+    console.log('Đang đồng bộ database...');
+    await prisma.$executeRaw`SELECT 1`;
+    await execAsync('npx prisma db push');
+    console.log('Database đã sẵn sàng!');
+  } catch (error) {
+    console.error('Lỗi đồng bộ database:', error);
+    throw error;
+  }
+}
 
 function setupSocketServer() {
   httpServer = createServer(app);
@@ -96,6 +111,7 @@ async function startServer() {
     console.error('Error creating default user:', err);
   }
 
+  await initDatabase();
   setupSocketServer();
 
   httpServer?.listen(PORT, () => {
