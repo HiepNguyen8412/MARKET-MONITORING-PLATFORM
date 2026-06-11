@@ -114,7 +114,8 @@ async function startServer() {
   httpServer?.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
     startMockDataEngine();
-    startScraperService();
+    // Temporarily disable the scraper service to avoid excessive third-party API requests and 429 spam.
+    // startScraperService();
   });
 }
 
