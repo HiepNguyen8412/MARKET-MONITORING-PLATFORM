@@ -24,4 +24,4 @@ RUN npm run build
 EXPOSE 4000
 
 # Start application
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma db push && npm start"]
