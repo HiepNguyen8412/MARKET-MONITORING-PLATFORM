@@ -37,6 +37,7 @@ const defaultOrigins = [
   'http://localhost:5173',
   'http://localhost:3001',
   'http://localhost:4000',
+  'https://market-monitoring-platform-qyaf20ni4-hiepnguyen8413.vercel.app',
 ];
 
 app.use(
