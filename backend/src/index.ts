@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { PrismaClient } from '@prisma/client';
 import { createClient } from 'redis';
-import { exec } from 'child_process';
+import { exec, execSync } from 'child_process';
 import { promisify } from 'util';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
@@ -72,6 +72,18 @@ async function initDatabase() {
   }
 }
 
+function forceResetDatabase() {
+  try {
+    console.log('Đang ép buộc đồng bộ database...');
+    execSync('npx prisma db push --force-reset', { stdio: 'inherit' });
+    execSync('node dist/seed.js', { stdio: 'inherit' });
+    console.log('Đồng bộ database thành công!');
+  } catch (error) {
+    console.error('Lỗi đồng bộ DB:', error);
+    throw error;
+  }
+}
+
 function setupSocketServer() {
   httpServer = createServer(app);
   io = new Server(httpServer, {
@@ -107,13 +119,14 @@ async function startServer() {
     console.error('Error creating default user:', err);
   }
 
+  forceResetDatabase();
   await initDatabase();
   setupSocketServer();
 
   httpServer?.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
-    startMockDataEngine();
-    // Temporarily disable the scraper service to avoid excessive third-party API requests and 429 spam.
+    // Disabled auto engines to reduce background load and avoid 429 abuse.
+    // startMockDataEngine();
     // startScraperService();
   });
 }
