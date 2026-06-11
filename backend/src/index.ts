@@ -31,23 +31,22 @@ export const redisClient = {
   setEx: async (key: string, seconds: number, value: string) => {}
 } as any;
 
-const FRONTEND_URL = process.env.FRONTEND_URL;
-const defaultOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://localhost:3001',
-  'http://localhost:4000',
-  'https://market-monitoring-platform.vercel.app',
-  'https://market-monitoring-platform-qyaf20ni4-hiepnguyen8413.vercel.app',
-];
-
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-      const allowed = FRONTEND_URL ? [FRONTEND_URL, ...defaultOrigins] : defaultOrigins;
-      if (allowed.includes(origin) || allowed.includes('*')) return callback(null, true);
-      return callback(new Error('CORS not allowed'), false);
+
+      const isLocalhost =
+        origin.startsWith('http://localhost') ||
+        origin.startsWith('https://localhost') ||
+        origin.startsWith('http://127.0.0.1') ||
+        origin.startsWith('https://127.0.0.1');
+
+      if (origin.endsWith('.vercel.app') || isLocalhost) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'), false);
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
