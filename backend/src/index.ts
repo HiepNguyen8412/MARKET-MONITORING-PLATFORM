@@ -94,10 +94,9 @@ async function startServer() {
   // Ensure default user exists for public access
   try {
     await prisma.user.upsert({
-      where: { id: 1 },
+      where: { email: 'public@flow.com' },
       update: {},
       create: {
-        id: 1,
         email: 'public@flow.com',
         password_hash: 'nopassword',
         role: 'USER'

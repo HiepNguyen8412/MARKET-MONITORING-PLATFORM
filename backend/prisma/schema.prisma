@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id            Int         @id @default(autoincrement())
+  id            String      @id @default(uuid())
   email         String      @unique
   password_hash String
   role          String      @default("USER")
@@ -42,18 +42,18 @@ model MarketData {
 }
 
 model Watchlist {
-  id      Int   @id @default(autoincrement())
-  userId  Int
-  user    User  @relation(fields: [userId], references: [id])
+  id      Int    @id @default(autoincrement())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
   assetId Int
-  asset   Asset @relation(fields: [assetId], references: [id])
+  asset   Asset  @relation(fields: [assetId], references: [id])
 
   @@unique([userId, assetId])
 }
 
 model AlertThreshold {
   id          Int     @id @default(autoincrement())
-  userId      Int
+  userId      String
   user        User    @relation(fields: [userId], references: [id])
   assetId     Int
   asset       Asset   @relation(fields: [assetId], references: [id])
@@ -64,7 +64,7 @@ model AlertThreshold {
 
 model Portfolio {
   id        Int      @id @default(autoincrement())
-  userId    Int      @unique
+  userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
   balance   Float    @default(100000.0)
   createdAt DateTime @default(now())

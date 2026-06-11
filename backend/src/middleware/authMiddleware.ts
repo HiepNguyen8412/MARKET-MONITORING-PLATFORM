@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 // Extend Express Request interface to include the user payload
 export interface AuthRequest extends Request {
   user?: {
-    id: number;
+    id: string;
     role: string;
   };
 }
@@ -19,7 +19,7 @@ export const authenticateJWT = (req: AuthRequest, res: Response, next: NextFunct
       if (err) {
         return res.status(403).json({ error: 'Invalid or expired token' });
       }
-      req.user = decoded as { id: number; role: string };
+      req.user = decoded as { id: string; role: string };
       next();
     });
   } else {

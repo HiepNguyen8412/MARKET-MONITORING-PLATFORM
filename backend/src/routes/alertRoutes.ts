@@ -20,9 +20,14 @@ router.get('/', async (req: AuthRequest, res) => {
 router.post('/', async (req: AuthRequest, res) => {
   try {
     const { assetId, targetPrice, type } = req.body;
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const alert = await prisma.alertThreshold.create({
       data: {
-        userId: req.user?.id as number,
+        userId,
         assetId: parseInt(assetId),
         targetPrice: parseFloat(targetPrice),
         type
